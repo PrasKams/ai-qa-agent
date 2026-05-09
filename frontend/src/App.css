@@ -1,0 +1,187 @@
+/* src/App.css - Production Styles */
+ 
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+ 
+.app {
+  min-height: 100vh;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  padding: 20px;
+}
+ 
+header {
+  text-align: center;
+  color: white;
+  margin-bottom: 40px;
+}
+ 
+header h1 {
+  font-size: 2.5rem;
+  margin-bottom: 10px;
+}
+ 
+header p {
+  font-size: 1.1rem;
+  opacity: 0.9;
+}
+ 
+.dashboard {
+  max-width: 1400px;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(600px, 1fr));
+  gap: 30px;
+}
+ 
+section {
+  background: white;
+  padding: 30px;
+  border-radius: 12px;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+}
+ 
+h2 {
+  margin-bottom: 20px;
+  color: #667eea;
+}
+ 
+/* Chat Styles */
+.streaming-chat .messages {
+  height: 400px;
+  overflow-y: auto;
+  background: #f8f9fa;
+  padding: 20px;
+  border-radius: 8px;
+  margin-bottom: 20px;
+}
+ 
+.message {
+  margin: 15px 0;
+  padding: 15px;
+  border-radius: 8px;
+}
+ 
+.message.user {
+  background: #667eea;
+  color: white;
+  margin-left: 20%;
+}
+ 
+.message.assistant {
+  background: white;
+  border: 1px solid #e0e0e0;
+  margin-right: 20%;
+}
+ 
+.message strong {
+  display: block;
+  margin-bottom: 5px;
+  font-size: 0.85rem;
+  opacity: 0.8;
+}
+ 
+.cursor {
+  animation: blink 1s infinite;
+  margin-left: 2px;
+  color: #667eea;
+}
+ 
+@keyframes blink {
+  0%, 50% { opacity: 1; }
+  51%, 100% { opacity: 0; }
+}
+ 
+/* Input Area */
+.input-area {
+  display: flex;
+  gap: 10px;
+}
+ 
+.input-area input,
+textarea {
+  flex: 1;
+  padding: 12px;
+  border: 2px solid #e0e0e0;
+  border-radius: 8px;
+  font-size: 1rem;
+  transition: border-color 0.3s;
+}
+ 
+.input-area input:focus,
+textarea:focus {
+  outline: none;
+  border-color: #667eea;
+}
+ 
+textarea {
+  width: 100%;
+  resize: vertical;
+  font-family: inherit;
+}
+ 
+button {
+  padding: 12px 24px;
+  background: #667eea;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: background 0.3s;
+}
+ 
+button:hover:not(:disabled) {
+  background: #5568d3;
+}
+ 
+button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+ 
+/* Output */
+.output {
+  margin-top: 20px;
+  padding: 20px;
+  background: #f8f9fa;
+  border-radius: 8px;
+  min-height: 300px;
+  font-family: 'Courier New', monospace;
+  white-space: pre-wrap;
+  line-height: 1.6;
+}
+ 
+/* Error Boundary */
+.error-boundary {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+  padding: 20px;
+  text-align: center;
+  background: white;
+}
+ 
+.error-boundary h2 {
+  color: #dc3545;
+  margin-bottom: 20px;
+}
+ 
+.error-boundary button {
+  background: #dc3545;
+}
+ 
+.error-boundary button:hover {
+  background: #c82333;
+}
+ 
+footer {
+  text-align: center;
+  color: white;
+  margin-top: 40px;
+  opacity: 0.8;
+}
