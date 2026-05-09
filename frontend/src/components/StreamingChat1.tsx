@@ -14,6 +14,7 @@ export default function StreamingChat1 () {
     const messagesEndRef = useRef<HTMLDivElement>(null);
 
     const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:8000';
+    // const API_URL = 'https://qa-ai-backend-puww.onrender.com';
 
     useEffect(() => {
         messagesEndRef.current?.scrollIntoView({ behavior: 'smooth'});
