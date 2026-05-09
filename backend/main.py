@@ -44,6 +44,18 @@ class ChatRequest(BaseModel):
 class TestRequest(BaseModel):
     feature: str = Field(..., min_length=1, max_length=500)
 
+@app.get('/')
+async def root():
+    return {
+        "status": "healthy",
+        "message": "QA AI Backend is running!",
+        "endpoints": [
+            "/docs",
+            "/api/stream-chat",
+            "/api/stream-test-cases"
+        ]
+    }
+
 @app.get('/api/health')
 async def health_check():
     return { 'status' : 'healthy', 'timestamp': time.time() }
