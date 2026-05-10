@@ -11,10 +11,13 @@ import json
 load_dotenv()
 
 app = FastAPI(title="Production QA AI API")
+origins = os.getenv("ALLOWED_ORIGINS", "").split(",")
+print(origins)
+
 
 app.add_middleware(
     CORSMiddleware,
-    allow_origins = ["http://localhost:5173"],
+    allow_origins = origins,
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
