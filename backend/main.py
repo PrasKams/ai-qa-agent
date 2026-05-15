@@ -7,6 +7,16 @@ from pydantic import BaseModel, Field, validator
 import time
 from collections import defaultdict
 import json
+import sentry_sdk
+
+from monitoring import Metrics
+from cost_tracking import CostTracker
+
+sentry_sdk.init(
+    dsn=os.getenv("SENTRY_DSN"),
+    traces_sample_rate=1.0,
+    profiles_sample_rate=1.0
+)
 
 load_dotenv()
 
@@ -88,6 +98,11 @@ async def generate_test_cases(request_data: TestRequest, request: Request):
         raise HTTPException(status_code=500, detail="Invalid JSON from LLM")
 
     return { 'testCases': test_cases, 'count': len(test_cases)}
+
+
+metrics = Metrics()
+cost_tracker = CostTracker()
+
 
 if __name__ == '__main__':
     import uvicorn
