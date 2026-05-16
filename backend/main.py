@@ -11,10 +11,17 @@ import json
 from monitoring import Metrics
 from cost_tracking import CostTracker
 
+from performance import rate_limiter, ai_cache
+
 
 load_dotenv()
 
 app = FastAPI(title="Production QA AI API")
+
+metrics = Metrics()
+cost_tracker = CostTracker()
+
+
 origins = os.getenv("ALLOWED_ORIGINS", "").split(",")
 print(origins)
 
@@ -33,7 +40,7 @@ request_counts = defaultdict(list)
 
 async def check_rate_limit(request: Request, max_requests: int = 10, window: int = 60):
     client_ip = request.client.host
-    current_time = time.time()
+    current_time = time()
 
     request_counts[client_ip] = [
         t for t in request_counts[client_ip]
@@ -50,6 +57,50 @@ class ChatRequest(BaseModel):
 
 class TestRequest(BaseModel):
     feature: str = Field(..., min_length=1, max_length=500)
+
+
+
+@app.post('/api/chat-cached')
+async def chat_cached(request: ChatRequest, req: Request):
+
+    cached = ai_cache.get(request.message)
+
+    if cached:
+        return {
+            'reponse': cached,
+            'cached': True,
+            'cost_saved': 0
+        }
+
+    model = "gpt-4" if len(request.message) > 200 else "gpt-3.5-turbo"
+
+
+    user_id = req.client.host
+
+    if not rate_limiter.check_limits(user_id):
+        raise HTTPException(status_code=429, detail="Rate limit exceeded")
+    
+    llm = ChatOpenAI(model=model)
+    response = llm.invoke(request.message)
+
+    ai_cache.set(request.message, response.content, model)
+
+    cost = 0.001 if model == "gpt-3.5-turbo" else 0.01
+    cost_tracker.track_usage(model, len(request.message)//4, len(response.content)//4)
+
+    return {
+        'response': response.content,
+        'cached': False,
+        'model_used': model,
+        'cost_saved': cost
+    }
+
+@app.get('/api/cache-stats')
+async def get_cache_stats():
+    return ai_cache.get_stats()
+
+
+
 
 @app.get('/')
 async def root():
@@ -94,8 +145,7 @@ async def generate_test_cases(request_data: TestRequest, request: Request):
     return { 'testCases': test_cases, 'count': len(test_cases)}
 
 
-metrics = Metrics()
-cost_tracker = CostTracker()
+
 
 
 if __name__ == '__main__':
