@@ -12,6 +12,7 @@ from monitoring import Metrics
 from cost_tracking import CostTracker
 
 from performance import rate_limiter, ai_cache
+from bug_triage import BugTriageRequest, run_bug_triage
 
 
 load_dotenv()
@@ -125,6 +126,13 @@ async def chat(request_data: ChatRequest, request:Request):
     response = llm.invoke(request_data.message)
 
     return { 'response': response.content, 'timestamp': time.time()}
+
+@app.post('/api/bug-triage')
+async def bug_triage(request: BugTriageRequest):
+    result = await run_bug_triage(request)
+    return result
+
+
 
 
 @app.post('/api/generate-test-cases')
