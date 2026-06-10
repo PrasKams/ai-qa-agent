@@ -1,4 +1,3 @@
-import React from "react";
 
 type Page = 'chat' | 'test-generator' | 'bug-triage';
 
@@ -20,7 +19,7 @@ export default function Navigation({ currentPage, onNavigate }: NavigationProps)
             navItems.map(item => (
                 <button
                 key={item.id}
-                className="{`nav-item ${currentPage === item.id ? 'active' : ''}`}"
+                className={`nav-item ${currentPage === item.id ? 'active' : ''}`}
                 onClick={() => onNavigate(item.id)}
                 >
                     <span className="nav-icon">{item.icon}</span>
