@@ -40,7 +40,7 @@ export default function BugTriage() {
     setResult(null);
 
     try {
-      const response = await fetch(`${API_URL}/api/triage-bug`, {
+      const response = await fetch(`${API_URL}/api/bug-triage`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(form)
