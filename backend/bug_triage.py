@@ -1,5 +1,5 @@
 from crewai import Agent, Task, Crew, Process, LLM
-from crewai_tools import tool
+from crewai.tools import tool
 from fastapi import HTTPException
 from pydantic import BaseModel
 import logging

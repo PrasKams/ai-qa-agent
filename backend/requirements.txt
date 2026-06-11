@@ -2,8 +2,11 @@
  
 fastapi==0.109.0
 uvicorn[standard]==0.27.0
-langchain==0.1.0
-langchain-openai==0.0.5
 python-dotenv==1.0.0
-pydantic==2.5.0
-crewai==1.14.2
+pydantic
+
+langchain==1.0.0
+langchain-openai==1.1.12
+
+crewai
+crewai-tools
